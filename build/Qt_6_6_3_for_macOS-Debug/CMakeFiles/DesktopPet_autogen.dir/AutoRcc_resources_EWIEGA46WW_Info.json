@@ -1,0 +1,22 @@
+{
+	"BUILD_DIR" : "/Users/a11/Desktop/DesktopPet/build/Qt_6_6_3_for_macOS-Debug/DesktopPet_autogen",
+	"CMAKE_BINARY_DIR" : "/Users/a11/Desktop/DesktopPet/build/Qt_6_6_3_for_macOS-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/Users/a11/Desktop/DesktopPet/build/Qt_6_6_3_for_macOS-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/Users/a11/Desktop/DesktopPet",
+	"CMAKE_SOURCE_DIR" : "/Users/a11/Desktop/DesktopPet",
+	"CROSS_CONFIG" : false,
+	"GENERATOR" : "Ninja",
+	"INCLUDE_DIR" : "/Users/a11/Desktop/DesktopPet/build/Qt_6_6_3_for_macOS-Debug/DesktopPet_autogen/include",
+	"INPUTS" : [ "/Users/a11/Desktop/DesktopPet/meme.gif" ],
+	"LOCK_FILE" : "/Users/a11/Desktop/DesktopPet/build/Qt_6_6_3_for_macOS-Debug/CMakeFiles/DesktopPet_autogen.dir/AutoRcc_resources_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "--no-zstd", "-name", "resources" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_resources.cpp",
+	"RCC_EXECUTABLE" : "/Users/a11/Applications/qt/6.6.3/macos/./libexec/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/Users/a11/Desktop/DesktopPet/build/Qt_6_6_3_for_macOS-Debug/CMakeFiles/DesktopPet_autogen.dir/AutoRcc_resources_EWIEGA46WW_Used.txt",
+	"SOURCE" : "/Users/a11/Desktop/DesktopPet/resources.qrc",
+	"USE_BETTER_GRAPH" : false,
+	"VERBOSITY" : 0
+}
