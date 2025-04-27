@@ -1,5 +1,18 @@
 <RCC>
-    <qresource prefix="/images">
-        <file>meme.gif</file>
+    <qresource prefix="/">
+        <file>images/meme1.gif</file>
+        <file>images/meme2.gif</file>
+        <file>images/meme3.gif</file>
+        <file>images/meme4.gif</file>
+        <file>images/meme5.gif</file>
+        <file>images/meme6.gif</file>
+        <file>images/meme7.gif</file>
+        <file>images/meme8.gif</file>
+        <file>images/meme9.gif</file>
+        <file>images/meme10.gif</file>
+    </qresource>
+    <qresource prefix="/sounds">
+        <file>sounds/meme8.mp4</file>
+        <file>sounds/meme9.mp4</file>
     </qresource>
 </RCC>

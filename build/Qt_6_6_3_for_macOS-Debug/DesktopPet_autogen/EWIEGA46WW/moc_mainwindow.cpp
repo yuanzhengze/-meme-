@@ -39,20 +39,52 @@ namespace {
 #ifdef QT_MOC_HAS_STRINGDATA
 struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::stringData(
-    "MainWindow"
+    "MainWindow",
+    "switchRandomMeme",
+    "",
+    "showContextMenu",
+    "pos",
+    "toggleAutoSwitch",
+    "onAutoSwitchTimeout",
+    "showRandomDanmu",
+    "startFloatAnimation"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {
-    uint offsetsAndSizes[2];
+    uint offsetsAndSizes[18];
     char stringdata0[11];
+    char stringdata1[17];
+    char stringdata2[1];
+    char stringdata3[16];
+    char stringdata4[4];
+    char stringdata5[17];
+    char stringdata6[20];
+    char stringdata7[16];
+    char stringdata8[20];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSMainWindowENDCLASS_t::offsetsAndSizes) + ofs), len 
 Q_CONSTINIT static const qt_meta_stringdata_CLASSMainWindowENDCLASS_t qt_meta_stringdata_CLASSMainWindowENDCLASS = {
     {
-        QT_MOC_LITERAL(0, 10)   // "MainWindow"
+        QT_MOC_LITERAL(0, 10),  // "MainWindow"
+        QT_MOC_LITERAL(11, 16),  // "switchRandomMeme"
+        QT_MOC_LITERAL(28, 0),  // ""
+        QT_MOC_LITERAL(29, 15),  // "showContextMenu"
+        QT_MOC_LITERAL(45, 3),  // "pos"
+        QT_MOC_LITERAL(49, 16),  // "toggleAutoSwitch"
+        QT_MOC_LITERAL(66, 19),  // "onAutoSwitchTimeout"
+        QT_MOC_LITERAL(86, 15),  // "showRandomDanmu"
+        QT_MOC_LITERAL(102, 19)   // "startFloatAnimation"
     },
-    "MainWindow"
+    "MainWindow",
+    "switchRandomMeme",
+    "",
+    "showContextMenu",
+    "pos",
+    "toggleAutoSwitch",
+    "onAutoSwitchTimeout",
+    "showRandomDanmu",
+    "startFloatAnimation"
 };
 #undef QT_MOC_LITERAL
 #endif // !QT_MOC_HAS_STRING_DATA
@@ -64,12 +96,28 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       0,    0, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
        0,       // signalCount
+
+ // slots: name, argc, parameters, tag, flags, initial metatype offsets
+       1,    0,   50,    2, 0x08,    1 /* Private */,
+       3,    1,   51,    2, 0x08,    2 /* Private */,
+       5,    0,   54,    2, 0x08,    4 /* Private */,
+       6,    0,   55,    2, 0x08,    5 /* Private */,
+       7,    0,   56,    2, 0x08,    6 /* Private */,
+       8,    0,   57,    2, 0x08,    7 /* Private */,
+
+ // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::QPoint,    4,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -82,17 +130,39 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
     nullptr,
     qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSMainWindowENDCLASS_t,
         // Q_OBJECT / Q_GADGET
-        QtPrivate::TypeAndForceComplete<MainWindow, std::true_type>
+        QtPrivate::TypeAndForceComplete<MainWindow, std::true_type>,
+        // method 'switchRandomMeme'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'showContextMenu'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QPoint &, std::false_type>,
+        // method 'toggleAutoSwitch'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onAutoSwitchTimeout'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'showRandomDanmu'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'startFloatAnimation'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
 } };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
-    (void)_o;
-    (void)_id;
-    (void)_c;
-    (void)_a;
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        auto *_t = static_cast<MainWindow *>(_o);
+        (void)_t;
+        switch (_id) {
+        case 0: _t->switchRandomMeme(); break;
+        case 1: _t->showContextMenu((*reinterpret_cast< std::add_pointer_t<QPoint>>(_a[1]))); break;
+        case 2: _t->toggleAutoSwitch(); break;
+        case 3: _t->onAutoSwitchTimeout(); break;
+        case 4: _t->showRandomDanmu(); break;
+        case 5: _t->startFloatAnimation(); break;
+        default: ;
+        }
+    }
 }
 
 const QMetaObject *MainWindow::metaObject() const
@@ -111,6 +181,17 @@ void *MainWindow::qt_metacast(const char *_clname)
 int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QMainWindow::qt_metacall(_c, _id, _a);
+    if (_id < 0)
+        return _id;
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        if (_id < 6)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 6;
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        if (_id < 6)
+            *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
+        _id -= 6;
+    }
     return _id;
 }
 QT_WARNING_POP
