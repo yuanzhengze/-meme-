@@ -1,0 +1,4 @@
+build/
+*_autogen/
+*.o
+*.qrc.cpp

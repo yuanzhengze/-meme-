@@ -1,0 +1,41 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/meme1.gif</file>
+        <file>images/meme2.gif</file>
+        <file>images/meme3.gif</file>
+        <file>images/meme4.gif</file>
+        <file>images/meme5.gif</file>
+        <file>images/meme7.gif</file>
+        <file>images/meme8.gif</file>
+        <file>images/meme9.gif</file>
+        <file>images/meme10.gif</file>
+        <file>images/meme11.gif</file>
+        <file>images/meme12.GIF</file>
+        <file>images/meme13.GIF</file>
+        <file>images/meme14.GIF</file>
+        <file>images/meme15.GIF</file>
+        <file>images/meme16.GIF</file>
+        <file>images/meme17.GIF</file>
+        <file>images/meme18.GIF</file>
+        <file>images/meme19.GIF</file>
+        <file>images/meme21.GIF</file>
+        <file>images/meme22.GIF</file>
+        <file>images/meme23.GIF</file>
+        <file>images/meme24.GIF</file>
+        <file>images/meme25.GIF</file>
+        <file>images/meme26.GIF</file>
+        <file>images/meme27.GIF</file>
+        <file>images/meme28.GIF</file>
+        <file>images/meme29.GIF</file>
+        <file>images/meme30.GIF</file>
+        <file>images/meme31.GIF</file>
+        <file>images/meme32.GIF</file>
+        <file>images/meme33.GIF</file>
+        <file>images/meme34.GIF</file>
+        <file>images/meme35.GIF</file>
+    </qresource>
+    <qresource prefix="/sounds">
+        <file>sounds/meme8.mp4</file>
+        <file>sounds/meme9.mp4</file>
+    </qresource>
+</RCC>
