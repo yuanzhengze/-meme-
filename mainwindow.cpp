@@ -171,7 +171,6 @@ MainWindow::MainWindow(QWidget *parent)
     meme7.gifPath = ":/images/meme7.gif";
     memeDataList.append(meme7);
 
-    // 带音频的表情包
     MemeData meme8;
     meme8.gifPath = ":/images/meme8.gif";
     meme8.soundPaths << ":/sounds/meme8.mp4";
@@ -188,40 +187,33 @@ MainWindow::MainWindow(QWidget *parent)
         loadMeme(randomIndex); // 使用随机索引加载表情包
     } else {
         qWarning() << "Meme data list is empty, cannot load initial meme.";
-        // 可以选择在这里设置一个默认的占位符图像或退出
     }
-    // loadMeme(0); // loadMeme会调整窗口大小，所以位置设置最好在它之后 // 注释掉或删除原来的加载方式
 
     // 设置随机初始位置
     QScreen *primaryScreen = QGuiApplication::primaryScreen();
     if (primaryScreen) {
         QRect screenGeometry = primaryScreen->availableGeometry();
-        int maxPosX = screenGeometry.width() - width() - 50; // 减去窗口宽度和一些边距
-        int maxPosY = screenGeometry.height() - height() - 100; // 减去窗口高度和一些边距 (底部通常有任务栏)
+        int maxPosX = screenGeometry.width() - width() - 50;
+        int maxPosY = screenGeometry.height() - height() - 100;
         if (maxPosX > 0 && maxPosY > 0) {
-            int randomX = QRandomGenerator::global()->bounded(50, maxPosX); // 在屏幕左侧一定范围内随机
-            int randomY = QRandomGenerator::global()->bounded(50, maxPosY); // 在屏幕顶部一定范围内随机
+            int randomX = QRandomGenerator::global()->bounded(50, maxPosX);
+            int randomY = QRandomGenerator::global()->bounded(50, maxPosY);
             move(randomX, randomY);
         } else {
-            // 如果屏幕太小，就放在左上角
-             move(50, 50);
+            move(50, 50);
         }
     } else {
-        // 备用位置
         move(100, 100);
     }
-
-
     danmuList << "又摸鱼了吧？" << "老板来了快关！" << "记得喝水~" << "加油打工人！" << "摸鱼要低调哦~" << "今天的你也很棒！" << "工作再忙也要休息哦~" << "来点音乐放松一下吧~" << "别忘了微笑~" << "努力工作，快乐生活！" << "小心老板在你身后~" << "喝杯咖啡提提神！" << "工作累了就伸个懒腰~" << "保持好心情，事半功倍！" << "今天的目标是：不加班！" << "记得吃午饭哦~" << "工作再忙也要保持健康！" << "来个深呼吸，放松一下~" << "加油，胜利就在眼前！" << "保持专注，效率更高！" << "今天的你真帅！" << "工作再忙也要保持微笑！" << "来点音乐放松一下吧~" << "别忘了微笑~" << "努力工作，快乐生活！" << "小心老板在你身后~" << "喝杯咖啡提提神！" << "工作累了就伸个懒腰~" << "保持好心情，事半功倍！" << "今天的目标是：不加班！";
-
     danmuTimer = new QTimer(this);
-    danmuTimer->setInterval(15000); // 15秒弹一次
+    danmuTimer->setInterval(15000);
     connect(danmuTimer, &QTimer::timeout, this, &MainWindow::showRandomDanmu);
     danmuTimer->start();
 
     floatAnimation = new QPropertyAnimation(this, "pos", this);
     floatTimer = new QTimer(this);
-    floatTimer->setInterval(8000); // 每8秒漂浮/弹跳一次
+    floatTimer->setInterval(8000);
     connect(floatTimer, &QTimer::timeout, this, &MainWindow::startFloatAnimation);
     floatTimer->start();
 
@@ -230,19 +222,18 @@ MainWindow::MainWindow(QWidget *parent)
                    << "哼！不理你了！" << "喵呜！好烦！" << "生气气！" << "喵喵喵喵喵！";
 
     // 在构造函数中添加信号槽连接
-    QPushButton *startBtn = this->findChild<QPushButton*>("startButton");
+    QPushButton *startBtn = findChild<QPushButton*>("startButton");
     if (startBtn) {
         connect(startBtn, &QPushButton::clicked, this, &MainWindow::startPomodoro);
     }
-    QPushButton *pauseBtn = this->findChild<QPushButton*>("pauseButton");
+    QPushButton *pauseBtn = findChild<QPushButton*>("pauseButton");
     if (pauseBtn) {
         connect(pauseBtn, &QPushButton::clicked, this, &MainWindow::pausePomodoro);
     }
-    QPushButton *resetBtn = this->findChild<QPushButton*>("resetButton");
+    QPushButton *resetBtn = findChild<QPushButton*>("resetButton");
     if (resetBtn) {
         connect(resetBtn, &QPushButton::clicked, this, &MainWindow::resetPomodoro);
     }
-    connect(findChild<QPushButton *>("startButton"), &QPushButton::clicked, this, &MainWindow::startPomodoro);
 }
 
 void MainWindow::loadMeme(int index) {
@@ -418,15 +409,9 @@ void MainWindow::toggleAutoSwitch() {
     isAutoSwitching = !isAutoSwitching;
     if (isAutoSwitching) {
         autoSwitchTimer->start();
-        // autoSwitchAction 的文本更新移到 showContextMenu 中，确保每次显示菜单时都正确
-        // autoSwitchAction->setText("关闭自动切换");
     } else {
         autoSwitchTimer->stop();
-        // autoSwitchAction 的文本更新移到 showContextMenu 中
-        // autoSwitchAction->setText("开启自动切换");
     }
-    // autoSwitchAction 的状态更新也移到 showContextMenu 中
-    // autoSwitchAction->setChecked(isAutoSwitching);
 }
 
 void MainWindow::onAutoSwitchTimeout() {
@@ -529,6 +514,7 @@ void MainWindow::startPomodoro() {
     }
 }
 
+
 void MainWindow::pausePomodoro() {
     if (isPomodoroRunning) {
         pomodoroTimer->stop();
@@ -539,5 +525,4 @@ void MainWindow::pausePomodoro() {
 void MainWindow::resetPomodoro() {
     pomodoroTimer->stop();
     pomodoroRemaining = pomodoroDuration;
-    int min = pomodoroRemaining / 60;
 }

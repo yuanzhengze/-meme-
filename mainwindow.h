@@ -78,5 +78,5 @@ private:
     int pomodoroRemaining; // 剩余秒数
     bool isPomodoroRunning;
 };
-
-#endif // MAINWINDOW_H
+ 
+#endif

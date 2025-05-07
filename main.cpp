@@ -46,10 +46,6 @@ int main(int argc, char *argv[])
         QObject::connect(newPet, &QObject::destroyed, [&petWindows, petPtr]() {
             petWindows.removeAll(petPtr);
             qDebug() << "Pet window closed. Remaining pets:" << petWindows.count();
-            // 如果这是最后一个窗口，并且程序没有自动退出，可以在这里强制退出
-            // if (petWindows.isEmpty() && !QApplication::quitOnLastWindowClosed()) {
-            //     QApplication::quit();
-            // }
         });
 
         newPet->show();
