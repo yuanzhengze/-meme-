@@ -14,6 +14,7 @@
 #include <QEasingCurve>
 #include <QList>
 #include <QPointer>
+#include "catrungamewidget.h" // 新增：包含猫猫快跑游戏窗口头文件
 
 struct MemeData {
     QString gifPath;
@@ -46,6 +47,7 @@ private slots:
     void summonNewPet();
     void summonArmy(); // 新增：召唤军团槽
     void dismissArmy(); // 新增：解散军团槽
+    void startCatRunGame(); // 新增：猫猫快跑游戏槽函数
     public:
         void startPomodoro();
     void pausePomodoro();

@@ -400,6 +400,7 @@ void MainWindow::showContextMenu(const QPoint &pos) {
     contextMenu.addAction("召唤新宠物", this, SLOT(summonNewPet()));
     contextMenu.addAction("召唤猫咪军团", this, SLOT(summonArmy())); // 新增：召唤军团菜单项
     contextMenu.addAction("解散猫咪军团", this, SLOT(dismissArmy())); // 新增：解散军团菜单项
+    contextMenu.addAction("猫猫快跑", this, SLOT(startCatRunGame())); // 新增：猫猫快跑游戏
     contextMenu.addSeparator();
     contextMenu.addAction("退出桌宠", this, SLOT(close()));
     contextMenu.exec(label->mapToGlobal(pos));
@@ -473,6 +474,13 @@ void MainWindow::summonArmy() {
 }
 
 // 新增：处理解散军团的槽函数
+void MainWindow::startCatRunGame()
+{
+    CatRunGameWidget *gameWidget = new CatRunGameWidget();
+    gameWidget->setAttribute(Qt::WA_DeleteOnClose); // Ensure it's deleted when closed
+    gameWidget->show();
+}
+
 void MainWindow::dismissArmy() {
     emit dismissArmyRequested(this); // 发射解散军团信号，并传递自身指针
 }

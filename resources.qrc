@@ -33,6 +33,24 @@
         <file>images/meme33.GIF</file>
         <file>images/meme34.GIF</file>
         <file>images/meme35.GIF</file>
+        <file>images/dog1.png</file>
+        <file>images/dog2.png</file>
+        <file>images/dog3.png</file>
+        <file>images/dog4.png</file>
+        <file>images/buildingimages/building1.jpg</file>
+        <file>images/buildingimages/building2.jpg</file>
+        <file>images/buildingimages/building3.jpg</file>
+        <file>images/buildingimages/building4.jpg</file>
+        <file>images/buildingimages/building5.jpg</file>
+        <file>images/buildingimages/building6.jpg</file>
+        <file>images/buildingimages/building7.jpg</file>
+        <file>images/buildingimages/building8.jpg</file>
+        <file>images/buildingimages/building9.jpg</file>
+        <file>images/buildingimages/building10.jpg</file>
+        <file>images/buildingimages/building11.jpg</file>
+        <file>images/buildingimages/building12.jpg</file>
+        <file>images/buildingimages/building13.jpg</file>
+
     </qresource>
     <qresource prefix="/sounds">
         <file>sounds/meme8.mp4</file>

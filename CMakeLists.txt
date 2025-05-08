@@ -18,6 +18,8 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        catrungamewidget.cpp
+        catrungamewidget.h
         ${TS_FILES}
 )
 
@@ -28,6 +30,8 @@ qt_add_executable(DesktopPet MANUAL_FINALIZATION
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
+    catrungamewidget.cpp
+    catrungamewidget.h
     resources.qrc
 )
 
