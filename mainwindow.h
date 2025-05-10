@@ -14,7 +14,7 @@
 #include <QEasingCurve>
 #include <QList>
 #include <QPointer>
-#include "catrungamewidget.h" // 新增：包含猫猫快跑游戏窗口头文件
+#include "catrungamewidget.h" // 猫猫快跑游戏窗口头文件
 
 struct MemeData {
     QString gifPath;
@@ -48,6 +48,7 @@ private slots:
     void summonArmy(); // 新增：召唤军团槽
     void dismissArmy(); // 新增：解散军团槽
     void startCatRunGame(); // 新增：猫猫快跑游戏槽函数
+    void showDanmu(const QString &text, const QColor &color, int duration); // 新增：显示自定义弹幕
     public:
         void startPomodoro();
     void pausePomodoro();
@@ -73,6 +74,7 @@ private:
     int clickCount; // 点击计数器
     bool isAngry; // 生气状态标志
     QList<QString> angryDanmuList; // 生气弹幕列表
+    QStringList interactionSoundPaths; // 新增：互动音效路径列表
     // 番茄钟相关成员变量
     QTimer *pomodoroTimer;
     QLabel *pomodoroLabel;

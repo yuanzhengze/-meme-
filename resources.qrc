@@ -50,10 +50,19 @@
         <file>images/buildingimages/building11.jpg</file>
         <file>images/buildingimages/building12.jpg</file>
         <file>images/buildingimages/building13.jpg</file>
-
-    </qresource>
-    <qresource prefix="/sounds">
-        <file>sounds/meme8.mp4</file>
-        <file>sounds/meme9.mp4</file>
+        <file>sounds/sound1.mp3</file>
+        <file>sounds/sound2.mp3</file>
+         <file>sounds/sound3.mp3</file>
+          <file>sounds/sound4.mp3</file>
+           <file>sounds/sound5.mp3</file>
+            <file>sounds/sound6.mp3</file>
+             <file>sounds/sound7.mp3</file>
+              <file>sounds/sound8.mp3</file>
+               <file>sounds/sound9.mp3</file>
+               <file>sounds/sound10.mp3</file>
+               <file>sounds/sound11.mp3</file>
+               <file>sounds/sound12.mp3</file>
+                <file>sounds/sound13.mp3</file>
+                 <file>sounds/sound14.mp3</file>
     </qresource>
 </RCC>

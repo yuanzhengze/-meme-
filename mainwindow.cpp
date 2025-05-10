@@ -6,22 +6,27 @@
 #include <QDebug>
 #include <QTimer>
 #include <QPropertyAnimation>
-#include <QScreen> // 新增：包含头文件以获取屏幕信息
-#include <QGuiApplication> // 新增：包含头文件
-#include <QAction> // 确保包含 QAction 头文件
+#include <QScreen> // 获取屏幕信息
+#include <QGuiApplication> 
+#include <QAction> 
 #include <QPushButton>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), label(new QLabel(this)), movie(nullptr),
       player(new QMediaPlayer(this)), audioOutput(new QAudioOutput(this)),
       autoSwitchTimer(new QTimer(this)),
-      isAutoSwitching(true), // 修改：将 isAutoSwitching 默认设置为 true
+      isAutoSwitching(true), 
       danmuList(), danmuTimer(nullptr),
       autoSwitchAction(nullptr),
-      clickCount(0), // 新增：点击计数器
-      isAngry(false), // 新增：生气状态标志
-      angryDanmuList() // 新增：生气弹幕列表
+      clickCount(0), // 点击计数器
+      isAngry(false), // 生气状态标志
+      angryDanmuList() // 生气弹幕列表
 {
+    // 初始化互动音效列表 
+    interactionSoundPaths.clear(); 
+    for (int i = 1; i <= 14; ++i) {
+        interactionSoundPaths << QString(":/sounds/sound%1.MP3").arg(i);
+    }
 
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground);
@@ -50,7 +55,6 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     // 初始化表情包数据
-    // 普通表情包，无音频
     MemeData meme1;
     meme1.gifPath = ":/images/meme1.gif";
     memeDataList.append(meme1);
@@ -173,15 +177,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     MemeData meme8;
     meme8.gifPath = ":/images/meme8.gif";
-    meme8.soundPaths << ":/sounds/meme8.mp4";
     memeDataList.append(meme8);
 
     MemeData meme9;
     meme9.gifPath = ":/images/meme9.gif";
-    meme9.soundPaths << ":/sounds/meme9.mp3";
     memeDataList.append(meme9);
 
-    // 加载第一个表情包 -> 修改为加载随机表情包
+    // 初始加载随机表情包
     if (!memeDataList.isEmpty()) { // 确保列表不为空
         int randomIndex = QRandomGenerator::global()->bounded(memeDataList.size());
         loadMeme(randomIndex); // 使用随机索引加载表情包
@@ -259,97 +261,51 @@ void MainWindow::loadMeme(int index) {
         qDebug() << "Failed to start movie";
         return;
     }
-
-    // 如果表情包有音频，播放第一个音频
-    if (!meme.soundPaths.isEmpty()) {
-        player->setSource(QUrl(meme.soundPaths.first()));
-        player->play();
-    }
-
     // 重置点击计数器和生气状态
     clickCount = 0;
     isAngry = false;
     
-    // 重置窗口和标签大小
-    label->setScaledContents(true);
-    label->setFixedSize(200, 200);
-    label->adjustSize();
-    resize(movie->frameRect().size());
+    label->setScaledContents(true); // 确保内容缩放
+    label->resize(movie->frameRect().size());
+    resize(label->size());
 }
 
-void MainWindow::mousePressEvent(QMouseEvent *event) {
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
     if (event->button() == Qt::LeftButton) {
         lastPos = event->globalPosition().toPoint();
-        
-        // 处理点击计数和生气效果
-        clickCount++;
-        if (clickCount >= 10 && !isAngry) {
-            isAngry = true;
-            loadMeme(16); // 切换到 meme17（生气表情）
-            
-            // 发送生气弹幕
-            QString angryText = angryDanmuList[QRandomGenerator::global()->bounded(angryDanmuList.size())];
-            QLabel *angryDanmu = new QLabel(angryText, this);
-            angryDanmu->setStyleSheet(
-                "QLabel {"
-                " color: #ff0000;"
-                " font: bold 20px '微软雅黑';"
-                " background: rgba(255,255,255,180);"
-                " border-radius: 8px;"
-                " padding: 4px 12px;"
-                "}"
-            );
-            angryDanmu->adjustSize();
-            
-            int y = QRandomGenerator::global()->bounded(height() - angryDanmu->height());
-            int startX = width();
-            int endX = -angryDanmu->width();
-            
-            angryDanmu->move(startX, y);
-            angryDanmu->show();
-            
-            QPropertyAnimation *animation = new QPropertyAnimation(angryDanmu, "pos");
-            animation->setDuration(3000);
-            animation->setStartValue(QPoint(startX, y));
-            animation->setEndValue(QPoint(endX, y));
-            animation->setEasingCurve(QEasingCurve::Linear);
-            
-            connect(animation, &QPropertyAnimation::finished, angryDanmu, &QLabel::deleteLater);
-            connect(animation, &QPropertyAnimation::finished, animation, &QPropertyAnimation::deleteLater);
-            
-            animation->start();
-        }
-        
-        // 如果已经生气，继续点击会使表情变大
-        if (isAngry) {
-            QSize currentSize = size();
-            QSize newSize = currentSize * 1.2; // 每次点击增大20%
 
-            // 如果新尺寸超过屏幕尺寸，则设置为屏幕尺寸
-            QScreen *screen = QGuiApplication::primaryScreen();
-            if (screen) {
-                QRect screenGeometry = screen->availableGeometry();
-                if (newSize.width() > screenGeometry.width() || newSize.height() > screenGeometry.height()) {
-                    newSize = screenGeometry.size();
-                }
+        if (!isAngry) {
+            clickCount++;
+            qDebug() << "Left button clicked. Click count:" << clickCount;
+
+            // 播放随机互动音效
+            if (!interactionSoundPaths.isEmpty()) {
+                int soundIndex = QRandomGenerator::global()->bounded(interactionSoundPaths.size());
+                player->setSource(QUrl(interactionSoundPaths[soundIndex]));
+                player->play();
+                qDebug() << "Playing interaction sound:" << interactionSoundPaths[soundIndex];
             }
 
-            // 使用动画平滑放大窗口和label
-            QPropertyAnimation *winAnim = new QPropertyAnimation(this, "size");
-            winAnim->setDuration(400); // 400ms动画
-            winAnim->setStartValue(currentSize);
-            winAnim->setEndValue(newSize);
-            winAnim->setEasingCurve(QEasingCurve::OutCubic);
-            winAnim->start(QAbstractAnimation::DeleteWhenStopped);
-
-            QPropertyAnimation *labelAnim = new QPropertyAnimation(label, "size");
-            labelAnim->setDuration(400);
-            labelAnim->setStartValue(label->size());
-            labelAnim->setEndValue(newSize);
-            labelAnim->setEasingCurve(QEasingCurve::OutCubic);
-            labelAnim->start(QAbstractAnimation::DeleteWhenStopped);
+            if (clickCount >= 10) { // 点击10次后生气
+                isAngry = true;
+                clickCount = 0; // 重置点击计数器
+                qDebug() << "Cat is now angry!";
+                if (!angryDanmuList.isEmpty()) {
+                    int danmuIndex = QRandomGenerator::global()->bounded(angryDanmuList.size());
+                    showDanmu(angryDanmuList[danmuIndex], Qt::red, 2000); // 显示红色生气弹幕
+                }
+            }
+        } else {
+            qDebug() << "Cat is angry, stop clicking!";
+            //每次点击都显示生气弹幕
+            if (!angryDanmuList.isEmpty()) {
+                int danmuIndex = QRandomGenerator::global()->bounded(angryDanmuList.size());
+                showDanmu(angryDanmuList[danmuIndex], Qt::red, 1500);
+            }
         }
     }
+    QMainWindow::mousePressEvent(event);
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
@@ -393,8 +349,6 @@ void MainWindow::showContextMenu(const QPoint &pos) {
     autoSwitchAction = contextMenu.addAction("开启自动切换", this, SLOT(toggleAutoSwitch()));
     autoSwitchAction->setCheckable(true);
     autoSwitchAction->setChecked(isAutoSwitching);
-    // 确保 autoSwitchAction 在这里被创建或更新
-    autoSwitchAction->setChecked(isAutoSwitching);
     contextMenu.addAction(autoSwitchAction);
     contextMenu.addAction("切换表情", this, SLOT(switchRandomMeme()));
     contextMenu.addAction("召唤新宠物", this, SLOT(summonNewPet()));
@@ -415,8 +369,42 @@ void MainWindow::toggleAutoSwitch() {
     }
 }
 
-void MainWindow::onAutoSwitchTimeout() {
-    switchRandomMeme();
+void MainWindow::onAutoSwitchTimeout()
+{
+    if (isAutoSwitching) {
+        switchRandomMeme();
+    }
+}
+
+void MainWindow::showDanmu(const QString &text, const QColor &color, int duration)
+{
+    if (text.isEmpty()) {
+        return;
+    }
+
+    QLabel *danmuLabel = new QLabel(text, this);
+    danmuLabel->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Tool);
+    danmuLabel->setAttribute(Qt::WA_TranslucentBackground);
+    danmuLabel->setAttribute(Qt::WA_DeleteOnClose);
+    danmuLabel->setStyleSheet(QString("background: transparent; color: %1; font-size: 20px; font-weight: bold;").arg(color.name()));
+    danmuLabel->adjustSize();
+
+    QScreen *primaryScreen = QGuiApplication::primaryScreen();
+    if (!primaryScreen) return;
+    QRect screenGeometry = primaryScreen->availableGeometry();
+
+    int yPos = QRandomGenerator::global()->bounded(screenGeometry.height() - danmuLabel->height());
+    danmuLabel->move(screenGeometry.width(), yPos);
+    danmuLabel->show();
+
+    QPropertyAnimation *animation = new QPropertyAnimation(danmuLabel, "pos", this);
+    animation->setDuration(5000); // 弹幕移动时间，可以根据需要调整
+    animation->setStartValue(QPoint(screenGeometry.width(), yPos));
+    animation->setEndValue(QPoint(-danmuLabel->width(), yPos));
+    animation->setEasingCurve(QEasingCurve::Linear);
+    animation->start(QAbstractAnimation::DeleteWhenStopped);
+
+    QTimer::singleShot(duration, danmuLabel, &QWidget::close);
 }
 
 void MainWindow::switchRandomMeme() {
@@ -424,44 +412,27 @@ void MainWindow::switchRandomMeme() {
     loadMeme(newIndex);
 }
 
-void MainWindow::showRandomDanmu() {
-    // 随机选一句弹幕
-    QString text = danmuList[QRandomGenerator::global()->bounded(danmuList.size())];
-
-    // 创建弹幕标签
-    QLabel *danmuLabel = new QLabel(text, this);
-    danmuLabel->setStyleSheet(
-        "QLabel {"
-        " color: #ff4081;"
-        " font: bold 16px '微软雅黑';"
-        " background: rgba(255,255,255,180);"
-        " border-radius: 8px;"
-        " padding: 2px 10px;"
-        "}"
-    );
-    danmuLabel->adjustSize();
-
-    // 弹幕起始和结束位置
-    int y = 10; // 距离顶部10像素
-    int startX = width();
-    int endX = -danmuLabel->width();
-
-    danmuLabel->move(startX, y);
-    danmuLabel->show();
-
-    // 动画
-    QPropertyAnimation *animation = new QPropertyAnimation(danmuLabel, "pos");
-    animation->setDuration(4000); // 4秒飞过
-    animation->setStartValue(QPoint(startX, y));
-    animation->setEndValue(QPoint(endX, y));
-    animation->setEasingCurve(QEasingCurve::Linear);
-
-    // 动画结束后删除标签和动画
-    connect(animation, &QPropertyAnimation::finished, danmuLabel, &QLabel::deleteLater);
-    connect(animation, &QPropertyAnimation::finished, animation, &QPropertyAnimation::deleteLater);
-
-    animation->start();
+void MainWindow::showRandomDanmu()
+{
+    if (danmuList.isEmpty()) {
+        return;
+    }
+    int index = QRandomGenerator::global()->bounded(danmuList.size());
+    // 生成随机颜色
+    int r = QRandomGenerator::global()->bounded(256);
+    int g = QRandomGenerator::global()->bounded(256);
+    int b = QRandomGenerator::global()->bounded(256);
+    QColor randomColor = QColor(r, g, b);
+    showDanmu(danmuList[index], randomColor, 3000); // 使用新的 showDanmu 函数，随机颜色，显示3秒
 }
+
+// The original showRandomDanmu logic is now part of the new showDanmu or can be removed if not needed elsewhere.
+// For now, let's comment it out to avoid duplication and ensure the new function is used.
+/*
+void MainWindow::showRandomDanmu()
+{
+}
+*/
 
 // 新增：处理召唤新宠物的槽函数
 void MainWindow::summonNewPet() {
