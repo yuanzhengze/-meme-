@@ -30,8 +30,8 @@ public:
 
 signals:
     void summonNewPetRequested();
-    void summonArmyRequested(); // 新增：召唤军团信号
-    void dismissArmyRequested(MainWindow* sender); // 新增：解散军团信号（传递发送者）
+    void summonArmyRequested(); // 召唤军团信号
+    void dismissArmyRequested(MainWindow* sender); // 解散军团信号（传递发送者）
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -45,14 +45,10 @@ private slots:
     void showRandomDanmu();
     void startFloatAnimation();
     void summonNewPet();
-    void summonArmy(); // 新增：召唤军团槽
-    void dismissArmy(); // 新增：解散军团槽
-    void startCatRunGame(); // 新增：猫猫快跑游戏槽函数
+    void summonArmy(); // 召唤军团槽
+    void dismissArmy(); // 解散军团槽
+    void startCatRunGame(); // 猫猫快跑游戏槽函数
     void showDanmu(const QString &text, const QColor &color, int duration); // 新增：显示自定义弹幕
-    public:
-        void startPomodoro();
-    void pausePomodoro();
-    void resetPomodoro();
 
 private:
     void loadMeme(int index);
@@ -70,17 +66,11 @@ private:
     QPropertyAnimation *floatAnimation;
     QTimer *floatTimer;
     
-    // 新增成员变量
+    // 成员变量
     int clickCount; // 点击计数器
     bool isAngry; // 生气状态标志
     QList<QString> angryDanmuList; // 生气弹幕列表
-    QStringList interactionSoundPaths; // 新增：互动音效路径列表
-    // 番茄钟相关成员变量
-    QTimer *pomodoroTimer;
-    QLabel *pomodoroLabel;
-    int pomodoroDuration; // 单位：秒
-    int pomodoroRemaining; // 剩余秒数
-    bool isPomodoroRunning;
+    QStringList interactionSoundPaths; // 互动音效路径列表
 };
  
 #endif

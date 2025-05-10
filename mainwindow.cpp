@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
     // 初始化定时器
     autoSwitchTimer->setInterval(10000); // 10秒切换一次
     connect(autoSwitchTimer, &QTimer::timeout, this, &MainWindow::onAutoSwitchTimeout);
-    if (isAutoSwitching) { // 新增：如果默认开启，则启动定时器
+    if (isAutoSwitching) { // 默认开启定时器
         autoSwitchTimer->start();
     }
 
@@ -223,20 +223,8 @@ MainWindow::MainWindow(QWidget *parent)
     angryDanmuList << "我生气了喵！" << "不要一直点我！" << "喵喵喵！" << "再点我就咬你！" 
                    << "哼！不理你了！" << "喵呜！好烦！" << "生气气！" << "喵喵喵喵喵！";
 
-    // 在构造函数中添加信号槽连接
-    QPushButton *startBtn = findChild<QPushButton*>("startButton");
-    if (startBtn) {
-        connect(startBtn, &QPushButton::clicked, this, &MainWindow::startPomodoro);
-    }
-    QPushButton *pauseBtn = findChild<QPushButton*>("pauseButton");
-    if (pauseBtn) {
-        connect(pauseBtn, &QPushButton::clicked, this, &MainWindow::pausePomodoro);
-    }
-    QPushButton *resetBtn = findChild<QPushButton*>("resetButton");
-    if (resetBtn) {
-        connect(resetBtn, &QPushButton::clicked, this, &MainWindow::resetPomodoro);
-    }
 }
+
 
 void MainWindow::loadMeme(int index) {
     if (index < 0 || index >= memeDataList.size()) return;
@@ -398,7 +386,7 @@ void MainWindow::showDanmu(const QString &text, const QColor &color, int duratio
     danmuLabel->show();
 
     QPropertyAnimation *animation = new QPropertyAnimation(danmuLabel, "pos", this);
-    animation->setDuration(5000); // 弹幕移动时间，可以根据需要调整
+    animation->setDuration(5000); // 弹幕移动时间
     animation->setStartValue(QPoint(screenGeometry.width(), yPos));
     animation->setEndValue(QPoint(-danmuLabel->width(), yPos));
     animation->setEasingCurve(QEasingCurve::Linear);
@@ -423,28 +411,19 @@ void MainWindow::showRandomDanmu()
     int g = QRandomGenerator::global()->bounded(256);
     int b = QRandomGenerator::global()->bounded(256);
     QColor randomColor = QColor(r, g, b);
-    showDanmu(danmuList[index], randomColor, 3000); // 使用新的 showDanmu 函数，随机颜色，显示3秒
+    showDanmu(danmuList[index], randomColor, 3000); // 随机颜色，显示3秒
 }
-
-// The original showRandomDanmu logic is now part of the new showDanmu or can be removed if not needed elsewhere.
-// For now, let's comment it out to avoid duplication and ensure the new function is used.
-/*
-void MainWindow::showRandomDanmu()
-{
-}
-*/
-
-// 新增：处理召唤新宠物的槽函数
+// 处理召唤新宠物的槽函数
 void MainWindow::summonNewPet() {
     emit summonNewPetRequested(); // 发射信号，通知主程序创建新宠物
 }
 
-// 新增：处理召唤军团的槽函数
+// 处理召唤军团的槽函数
 void MainWindow::summonArmy() {
     emit summonArmyRequested(); // 发射召唤军团信号
 }
 
-// 新增：处理解散军团的槽函数
+// 处理解散军团的槽函数
 void MainWindow::startCatRunGame()
 {
     CatRunGameWidget *gameWidget = new CatRunGameWidget();
@@ -484,24 +463,4 @@ MainWindow::~MainWindow() {
     delete danmuTimer;
     delete floatAnimation;
     delete floatTimer;
-}
-
-void MainWindow::startPomodoro() {
-    if (!isPomodoroRunning && pomodoroRemaining > 0) {
-        pomodoroTimer->start();
-        isPomodoroRunning = true;
-    }
-}
-
-
-void MainWindow::pausePomodoro() {
-    if (isPomodoroRunning) {
-        pomodoroTimer->stop();
-        isPomodoroRunning = false;
-    }
-}
-
-void MainWindow::resetPomodoro() {
-    pomodoroTimer->stop();
-    pomodoroRemaining = pomodoroDuration;
 }

@@ -1,5 +1,4 @@
 #include "mainwindow.h"
-
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
@@ -7,8 +6,8 @@
 #include <QPointer>
 #include <functional>
 #include <QDebug>
-#include <QScreen>        // 新增：包含 QScreen
-#include <QGuiApplication> // 新增：包含 QGuiApplication
+#include <QScreen>       
+#include <QGuiApplication> 
 
 int main(int argc, char *argv[])
 {
@@ -59,7 +58,6 @@ int main(int argc, char *argv[])
         int maxPets = 50; // 设置一个最大数量限制，防止卡死
 
         for (int i = 0; i < armySize && (currentPetCount + i) < maxPets; ++i) {
-            // 可以考虑加一点点延迟，但可能会让体验变慢，暂时不加
             createNewPet();
         }
          if (currentPetCount + armySize >= maxPets) {
@@ -86,7 +84,7 @@ int main(int argc, char *argv[])
                 petPtr->close(); // 请求关闭窗口
             }
         }
-        // 注意：窗口关闭是异步的，petWindows 列表会在 destroyed 信号槽中更新
+        // 窗口关闭是异步的，petWindows 列表会在 destroyed 信号槽中更新
     };
 
     // 创建第一个宠物
