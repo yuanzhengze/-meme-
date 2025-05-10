@@ -8,7 +8,7 @@
 #include <QPushButton>
 #include <QList>
 #include <QRect>
-#include <QKeyEvent> // Required for keyPressEvent
+#include <QKeyEvent> 
 
 class CatRunGameWidget : public QWidget
 {
@@ -21,7 +21,7 @@ public:
 protected:
     void paintEvent(QPaintEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
-    void keyReleaseEvent(QKeyEvent *event) override; // 添加 keyReleaseEvent 声明
+    void keyReleaseEvent(QKeyEvent *event) override; 
     void mousePressEvent(QMouseEvent *event) override;
 
 private slots:
@@ -37,7 +37,7 @@ private:
 
     QLabel *catLabel;
     QMovie *catMovie;
-    QLabel *backgroundLabel; // 新增：用于显示背景图片
+    QLabel *backgroundLabel; 
     QList<QLabel*> obstacles;
     QTimer *gameTimer;
     QTimer *obstacleTimer;
@@ -54,14 +54,14 @@ private:
     const int jumpStrength = -15;
     const int catSpeedX = 10; // 猫猫水平移动速度
 
-    QStringList catGifPaths; // To store paths to cat GIFs
-    QStringList dogImagePaths; // Paths to dog images
-    QStringList backgroundImagePaths; // 新增：存储背景图片路径
+    QStringList catGifPaths; 
+    QStringList dogImagePaths; 
+    QStringList backgroundImagePaths; 
 
     bool gameIsOver;
     int currentCatX; // 猫猫当前X坐标
-    bool moveLeftPressed;  // 新增：跟踪向左移动键是否按下
-    bool moveRightPressed; // 新增：跟踪向右移动键是否按下
+    bool moveLeftPressed; 
+    bool moveRightPressed;
 };
 
-#endif // CATRUNGAMEWIDGET_H
+#endif 

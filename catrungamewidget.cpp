@@ -4,13 +4,13 @@
 #include <QDir>
 #include <QApplication>
 #include <QDebug>
-#include <QPixmap> // 新增：用于加载图片
+#include <QPixmap>
 
 CatRunGameWidget::CatRunGameWidget(QWidget *parent)
     : QWidget(parent),
       catLabel(new QLabel(this)),
       catMovie(nullptr),
-      backgroundLabel(new QLabel(this)), // 新增：初始化背景标签
+      backgroundLabel(new QLabel(this)), 
       gameTimer(new QTimer(this)),
       obstacleTimer(new QTimer(this)),
       score(0),
@@ -29,11 +29,10 @@ CatRunGameWidget::CatRunGameWidget(QWidget *parent)
     // 设置窗口基本属性
     setFixedSize(800, 400); // 游戏窗口大小
     setWindowTitle("猫猫快跑");
-    setStyleSheet("background-color: #f0f0f0;"); // 淡灰色背景
+    setStyleSheet("background-color: #f0f0f0;");
 
-    // 初始化猫猫GIF路径列表 (假设图片在images目录下)
-    // TODO: 用户需要确保这些GIF文件在 :images/ 资源路径下
-    catGifPaths << ":/images/meme1.gif" << ":/images/meme2.gif" << ":/images/meme3.gif" << ":/images/meme4.gif" << ":/images/meme5.gif" << ":/images/meme11.gif" << ":/images/meme12.GIF" << ":/images/meme13.GIF"; // 可添加更多
+    // 初始化猫猫GIF路径列表
+    catGifPaths << ":/images/meme1.gif" << ":/images/meme2.gif" << ":/images/meme3.gif" << ":/images/meme4.gif" << ":/images/meme5.gif" << ":/images/meme11.gif" << ":/images/meme12.GIF" << ":/images/meme13.GIF"; 
     dogImagePaths << ":/images/dog1.png" << ":/images/dog3.png" << ":/images/dog4.png"<< ":/images/dog2.png";
 
     // 初始化背景图片路径列表
@@ -52,8 +51,7 @@ CatRunGameWidget::CatRunGameWidget(QWidget *parent)
 CatRunGameWidget::~CatRunGameWidget()
 {
     // 清理动态分配的内存
-    delete catMovie; // catLabel 会被 Qt 自动管理
-    // backgroundLabel 也会被 Qt 自动管理，因为它是 this 的子对象
+    delete catMovie; 
     qDeleteAll(obstacles);
     obstacles.clear();
 }
@@ -103,7 +101,6 @@ void CatRunGameWidget::initGame()
         catMovie = new QMovie(catGifPaths[randomIndex]);
         if (!catMovie->isValid()) {
             qWarning() << "Failed to load cat GIF:" << catGifPaths[randomIndex];
-            // 可以加载一个默认的占位图或者显示错误信息
             catLabel->setText("Error: Cat GIF not found");
         } else {
             catLabel->setMovie(catMovie);
@@ -143,8 +140,6 @@ void CatRunGameWidget::initGame()
 void CatRunGameWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
-    // 背景图片由 backgroundLabel 处理，这里不再绘制纯色背景
-    // 如果需要自定义绘制地面等，可以在这里进行，但要确保它在背景图片之上
     QPainter painter(this);
     painter.setPen(Qt::NoPen);
     painter.setBrush(QColor("#cccccc")); // 地面颜色
@@ -251,7 +246,7 @@ void CatRunGameWidget::spawnObstacle()
     QLabel *obstacle = new QLabel(this);
     if (dogImagePaths.isEmpty()) {
         qWarning() << "No dog images available!";
-        obstacle->setText("E"); // Error placeholder
+        obstacle->setText("E");
         obstacle->setFixedSize(50, 50);
     } else {
         int randomIndex = QRandomGenerator::global()->bounded(dogImagePaths.size());
@@ -259,7 +254,7 @@ void CatRunGameWidget::spawnObstacle()
         QPixmap dogPixmap(selectedDogImagePath);
         if (dogPixmap.isNull()) {
             qWarning() << "Failed to load dog image:" << selectedDogImagePath;
-            obstacle->setText("X"); // Placeholder for failed load
+            obstacle->setText("X");
             obstacle->setFixedSize(50, 50);
         } else {
             obstacle->setPixmap(dogPixmap.scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation));
